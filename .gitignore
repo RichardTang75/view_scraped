@@ -2,3 +2,6 @@
 *.png
 *.pyc
 *.sqlite3
+credentials.py
+/api/migrations
+/view_scraped/static/
