@@ -20,10 +20,10 @@
 <main>
 	<div>
 		{#each item_list as item}
-			<div class="item_description">
+			<div class="item_div">
 				<h2>{item.title}</h2>
 				<a href={item.link}>{item.link}</a>
-				<p>{item.description}</p>
+				<p class='item_description'>{item.description}</p>
 			</div>
 		{/each}
 	</div>
@@ -49,11 +49,22 @@
 		margin: 0 auto;
 	}
 
-	.item_description {
+	.item_div {
 		/* text-align: left; */
 		width: 80%;
 		display: inline-block;
-		border: 1px solid black;
+		/* border: 1px solid black; */
+		background-color: white;
+		margin: .5em;
+		border-radius: 5px;
+	}
+
+	.item_div:hover {
+		background-color: #f2f2f2;
+	}
+
+	.item_description {
+		padding: 0 2em; 
 	}
 
 	h1 {
@@ -68,4 +79,5 @@
 			max-width: none;
 		}
 	}
+	
 </style>
