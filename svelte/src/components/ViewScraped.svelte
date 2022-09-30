@@ -1,20 +1,22 @@
 <script>
 	import { onMount } from 'svelte';
+    import Navigation from './navigation.svelte';
 	let item_list = [
 	];
 	let current_page = 1;
 	onMount(async () => {
-		const item_response = await fetch('/api/items');
-		const item_json = await item_response.json();
-		item_list = item_json.results;
+		item_list = await fetch_items(current_page);
 		console.log(item_list)
 	});
 	async function switch_page(page) {
 		current_page = page;
-		const item_response = await fetch('/api/items?page=' + page);
-		const item_json = await item_response.json();
-		item_list = item_json.results;
+        item_list = await fetch_items(current_page);
 	}
+    async function fetch_items(page) {
+        const item_response = await fetch('/api/items?page=' + page);
+        const item_json = await item_response.json();
+        return item_json.results;
+    }
 </script>
 
 <main>
@@ -27,17 +29,7 @@
 			</div>
 		{/each}
 	</div>
-	<div>
-		{#if current_page > 2}
-			<button on:click={() => switch_page(current_page - 2)}>{current_page - 2}</button>
-		{/if}
-		{#if current_page > 1}
-			<button on:click={() => switch_page(current_page - 1)}>{current_page - 1}</button>
-		{/if}
-		<button on:click={() => switch_page(current_page)}>{current_page}</button>
-		<button on:click={() => switch_page(current_page + 1)} disabled={item_list.length < 10}>{current_page + 1}</button>
-		<button on:click={() => switch_page(current_page + 2)} disabled={item_list.length < 10}>{current_page + 2}</button>
-	</div>
+    <Navigation {current_page} {item_list} on:switch_page={(e)=>switch_page(e.detail)} />
 
 </main>
 
