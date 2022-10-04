@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
     import Navigation from './navigation.svelte';
+    import SourceColumn from './source_column.svelte';
+    import AssignedColumn from './assigned_column.svelte';
 	let item_list = [
 	];
 	let current_page = 1;
@@ -9,6 +11,8 @@
 		console.log(item_list)
 	});
 	async function switch_page(page) {
+        // TODO: scroll to top
+        // TODO: infinite scrolling?
 		current_page = page;
         item_list = await fetch_items(current_page);
 	}
@@ -29,6 +33,11 @@
 			</div>
 		{/each}
 	</div>
+    <div class="column_holder">
+        <AssignedColumn {item_list} />
+        <SourceColumn {item_list} />
+        <AssignedColumn {item_list} />
+    </div>
     <Navigation {current_page} {item_list} on:switch_page={(e)=>switch_page(e.detail)} />
 
 </main>
@@ -37,7 +46,6 @@
 	main {
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
 		margin: 0 auto;
 	}
 
@@ -59,17 +67,15 @@
 		padding: 0 2em; 
 	}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
 	@media (min-width: 640px) {
 		main {
 			max-width: none;
 		}
 	}
+
+    .column_holder {
+        display: flex;
+        justify-content: space-between;
+    }
 	
 </style>
