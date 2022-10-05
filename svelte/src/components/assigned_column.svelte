@@ -1,5 +1,6 @@
 <script>
     export let item_list;
+    console.log(item_list);
 </script>
 
 <div class='column'>
@@ -8,7 +9,7 @@
             <div class="item_div">
                 <h2>{item.title}</h2>
                 <a href={item.link}>{item.link}</a>
-                <p class='item_description'>{item.description}</p>
+                <!-- <p class='item_description'>{item.description}</p> -->
             </div>
         {/each}
     </div>

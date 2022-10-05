@@ -1,6 +1,8 @@
 <script>
     // TODO: prettify item divs
     // TODO: round corners of divs
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
     export let item_list;
 </script>
 
@@ -8,13 +10,13 @@
     <div>
         {#each item_list as item}
             <div class="item_div">
-                <button class="assign_button">&lt;</button>
+                <button on:click="{() => dispatch('ignore', item)}" class="assign_button">&lt;</button>
                 <div class="item_description_div">
                     <h2>{item.title}</h2>
                     <a href={item.link}>{item.link}</a>
                     <p class="item_description">{item.description}</p>
                 </div>
-                <button class="assign_button">&gt;</button>
+                <button on:click="{() => dispatch('want', item)}" class="assign_button">&gt;</button>
             </div>
         {/each}
     </div>

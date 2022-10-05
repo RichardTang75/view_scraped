@@ -3,8 +3,9 @@
     import Navigation from './navigation.svelte';
     import SourceColumn from './source_column.svelte';
     import AssignedColumn from './assigned_column.svelte';
-	let item_list = [
-	];
+	let item_list = [];
+    let ignore_list = [];
+    let want_list = [];
 	let current_page = 1;
 	onMount(async () => {
 		item_list = await fetch_items(current_page);
@@ -17,29 +18,40 @@
         item_list = await fetch_items(current_page);
 	}
     async function fetch_items(page) {
+        // TODO: Need to filter in Django
         const item_response = await fetch('/api/items?page=' + page);
         const item_json = await item_response.json();
         return item_json.results;
     }
+    function ignore(item) {
+        if (ignore_list.includes(item.detail)) {
+            // Should not happen. Throw error?
+        }
+        else {
+            ignore_list = [...ignore_list, item.detail];
+            item_list = item_list.filter(i => i !== item.detail);
+        }
+        console.log(ignore_list);
+    }
+    function want(item) {
+        if (want_list.includes(item.detail)) {
+            // Should not happen.
+        }
+        else {
+            want_list = [...want_list, item.detail];
+            item_list = item_list.filter(i => i !== item.detail);
+        }
+        console.log(want_list);
+    }
 </script>
 
 <main>
-	<div>
-		{#each item_list as item}
-			<div class="item_div">
-				<h2>{item.title}</h2>
-				<a href={item.link}>{item.link}</a>
-				<p class='item_description'>{item.description}</p>
-			</div>
-		{/each}
-	</div>
     <div class="column_holder">
-        <AssignedColumn {item_list} />
-        <SourceColumn {item_list} />
-        <AssignedColumn {item_list} />
+        <AssignedColumn item_list={ignore_list} />
+        <SourceColumn {item_list} on:ignore={ignore} on:want={want}/>
+        <AssignedColumn item_list={want_list} />
     </div>
     <Navigation {current_page} {item_list} on:switch_page={(e)=>switch_page(e.detail)} />
-
 </main>
 
 <style>
