@@ -13,6 +13,7 @@
         <button on:click={() => dispatch('switch_page', current_page - 1)}>{current_page - 1}</button>
     {/if}
     <button on:click={() => dispatch('switch_page', current_page)}>{current_page}</button>
+    <!-- TODO: use next and previous fields of query for this -->
     <button on:click={() => dispatch('switch_page', current_page + 1)}>{current_page + 1}</button>
     <button on:click={() => dispatch('switch_page', current_page + 2)}>{current_page + 2}</button>
 </div>
