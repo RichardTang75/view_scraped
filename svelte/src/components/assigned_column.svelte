@@ -36,5 +36,6 @@
         padding: 0 2em;
 		background-color: #eee;
 		border-radius: 5px;
+        word-break: break-word;
     }
 </style>
