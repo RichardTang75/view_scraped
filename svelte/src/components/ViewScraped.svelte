@@ -63,9 +63,9 @@
 
 <main>
     <div class="column_holder">
-        <AssignedColumn item_list={ignore_list} />
+        <AssignedColumn item_list={ignore_list} is_want={false} />
         <SourceColumn {item_list} on:ignore={ignore} on:want={want} />
-        <AssignedColumn item_list={want_list} />
+        <AssignedColumn item_list={want_list} is_want={true}/>
     </div>
     <Navigation
         {current_page}
@@ -90,5 +90,10 @@
     .column_holder {
         display: flex;
         justify-content: space-between;
+    }
+
+    :global(h2) {
+        margin: 0;
+        padding: .5em;
     }
 </style>

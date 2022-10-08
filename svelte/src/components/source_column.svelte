@@ -7,7 +7,8 @@
 </script>
 
 <div class="column">
-    <div>
+    <h1>View Scraped</h1>
+    <div class="source_background">
         {#each item_list as item}
             <div class="item_div">
                 <button on:click="{() => dispatch('ignore', item)}" class="assign_button">&lt;</button>
@@ -24,11 +25,15 @@
 
 <style>
     .column {
-        /* border: 1px solid black; */
-        background-color: rgb(250, 249, 214);
         margin: 0.5em;
         border-radius: 5px;
         flex-basis: 50%;
+        display: flex;
+        flex-direction: column;
+    }
+    .source_background {
+        background-color: rgb(250, 249, 214);
+        height: 100%;
     }
     .item_div {
         display: flex;
