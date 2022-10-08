@@ -8,7 +8,8 @@ from django_filters import rest_framework as filters
 from api.filters import ScrapedItemFilter
 
 class ItemList(generics.ListCreateAPIView):
-    queryset = ScrapedItem.objects.all()
+    # queryset = ScrapedItem.objects.all()
+    queryset = ScrapedItem.objects.filter(wantitem__isnull=True).filter(ignoreitem__isnull=True).order_by('-date')
     serializer_class = ScrapedItemSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ScrapedItemFilter
