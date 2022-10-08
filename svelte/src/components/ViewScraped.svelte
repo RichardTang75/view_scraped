@@ -9,7 +9,6 @@
 	let current_page = 1;
 	onMount(async () => {
 		item_list = await fetch_items(current_page);
-		console.log(item_list)
 	});
 	async function switch_page(page) {
         // TODO: scroll to top
@@ -18,7 +17,6 @@
         item_list = await fetch_items(current_page);
 	}
     async function fetch_items(page) {
-        // TODO: Need to filter in Django
         const item_response = await fetch('/api/items?page=' + page);
         const item_json = await item_response.json();
         return item_json.results;
@@ -43,11 +41,9 @@
             ignore_list = [...ignore_list, item.detail];
             item_list = item_list.filter(i => i !== item.detail);
         }
-        // console.log(ignore_list);
         let ignore_item = {
             "item_id": item.detail.id,
             }
-        console.log(ignore_item);
         post('/api/ignore/', ignore_item);
     }
     function want(item) {
@@ -58,11 +54,9 @@
             want_list = [...want_list, item.detail];
             item_list = item_list.filter(i => i !== item.detail);
         }
-        // console.log(want_list);
         let want_item = {
             "item_id": item.detail.id,
             }
-        console.log(want_item);
         post('/api/want/', want_item);
     }
 </script>
@@ -85,24 +79,6 @@
         text-align: center;
         padding: 1em;
         margin: 0 auto;
-    }
-
-    .item_div {
-        /* text-align: left; */
-        width: 80%;
-        display: inline-block;
-        /* border: 1px solid black; */
-        background-color: #eee;
-        margin: 0.5em;
-        border-radius: 5px;
-    }
-
-    .item_div:hover {
-        background-color: rgb(214, 224, 202);
-    }
-
-    .item_description {
-        padding: 0 2em;
     }
 
     @media (min-width: 640px) {
