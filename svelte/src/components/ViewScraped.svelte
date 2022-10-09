@@ -7,6 +7,7 @@
     let ignore_list = [];
     let want_list = [];
 	let current_page = 1;
+    let item_count = 0;
 	onMount(async () => {
 		item_list = await fetch_items(current_page);
 	});
@@ -19,6 +20,7 @@
     async function fetch_items(page) {
         const item_response = await fetch('/api/items?page=' + page);
         const item_json = await item_response.json();
+        item_count = item_json.count;
         return item_json.results;
     }
     async function post(url, item) {
@@ -69,7 +71,7 @@
     </div>
     <Navigation
         {current_page}
-        {item_list}
+        {item_count}
         on:switch_page={(e) => switch_page(e.detail)}
     />
 </main>
