@@ -6,7 +6,7 @@
 <div class='column'>
     <h1>{is_want ? 'Want' : 'Ignore'}</h1>
     <div class:want_background={is_want} class:ignore_background={!is_want}>
-        {#each item_list as item}
+        {#each item_list.slice(-5) as item}
             <div class="item_div">
                 <h2>{item.title}</h2>
                 <a href={item.link}>{item.link}</a>

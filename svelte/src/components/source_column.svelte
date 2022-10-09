@@ -1,6 +1,7 @@
 <script>
     // TODO: prettify item divs
     // TODO: round corners of divs
+    // TODO: deal with height of page changing
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
     export let item_list;
