@@ -23,6 +23,7 @@
         item_count = item_json.count;
         return item_json.results;
     }
+    // TODO: Combine posts/deletes?
     async function post(url, item) {
         const response = await fetch(url, {
             method: 'POST',
@@ -35,6 +36,16 @@
         const json = await response.json();
         console.log(json);
     }
+    async function delete_item(url) {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        console.log(response.status);
+    }
+    // TODO: Combine all ignore/wants
     function ignore(item) {
         if (ignore_list.includes(item.detail)) {
             // Should not happen. Throw error?
@@ -61,13 +72,34 @@
             }
         post('/api/want/', want_item);
     }
+    function delete_ignore(item) {
+        if (ignore_list.includes(item.detail)) {
+            ignore_list = ignore_list.filter(i => i !== item.detail);
+            // TODO: add to item_list. fetch it again?
+        }
+        else {
+            // Should not happen.
+        }
+        let delete_url = '/api/ignore/' + item.detail.id + '/';
+        delete_item(delete_url);
+    }
+    function delete_want(item) {
+        if (want_list.includes(item.detail)) {
+            want_list = want_list.filter(i => i !== item.detail);
+        }
+        else {
+            // Should not happen.
+        }
+        let delete_url = '/api/want/' + item.detail.id + '/';
+        delete_item(delete_url);
+    }
 </script>
 
 <main>
     <div class="column_holder">
-        <AssignedColumn item_list={ignore_list} is_want={false} />
+        <AssignedColumn item_list={ignore_list} is_want={false} on:delete_ignore={delete_ignore}/>
         <SourceColumn {item_list} on:ignore={ignore} on:want={want} />
-        <AssignedColumn item_list={want_list} is_want={true}/>
+        <AssignedColumn item_list={want_list} is_want={true} on:delete_want={delete_want}/>
     </div>
     <Navigation
         {current_page}

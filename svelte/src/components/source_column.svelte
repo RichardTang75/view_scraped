@@ -37,7 +37,7 @@
         {#each item_list as item}
             <div class="item_div">
                 <button on:click="{() => dispatch('ignore', item)}" class="assign_button">&lt;</button>
-                <div bind:this={item.item_div}>
+                <div bind:this={item.item_div} class=item_with_info_div>
                     <div class="item_description_div">
                         <h2>{item.title}</h2>
                         <a href={item.link}>{item.link}</a>
@@ -52,11 +52,9 @@
     <div class='spacer' class:hidden={!show_iframe}></div>
 </div>
 
-<!-- <div bind:this={iframe_div}>
-{#if selected_item}
-    <iframe src={selected_item.link} class="info_iframe"></iframe>
-{/if}
-</div> -->
+
+<!-- TODO: put this in its own component -->
+<!-- TODO: redesign with this in mind -->
 {#if selected_item}
     <div bind:this={iframe_div} class:hidden={!show_iframe} class="info_iframe">
         <button class:hidden={!show_iframe} class='info_button' on:click="{() => close_iframe()}">X</button>
@@ -92,6 +90,9 @@
         /* width: 80%; */
 		background-color: #eee;
 		border-radius: 5px;
+    }
+    .item_with_info_div {
+        width: 100%;
     }
     .item_description_div {
         padding: 0 2em;

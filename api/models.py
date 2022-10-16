@@ -10,9 +10,9 @@ class ScrapedItem(models.Model):
 
 # TODO: Should these two be combined to save a filter step?
 class WantItem(models.Model):
-    item_id = models.ForeignKey(ScrapedItem, on_delete=models.CASCADE, default=None)
+    item_id = models.OneToOneField(ScrapedItem, on_delete=models.CASCADE, default=None, primary_key=True)
     judge_date = models.DateTimeField(blank=False, null=False, auto_now_add=True)
 
 class IgnoreItem(models.Model):
-    item_id = models.ForeignKey(ScrapedItem, on_delete=models.CASCADE, default=None)
+    item_id = models.OneToOneField(ScrapedItem, on_delete=models.CASCADE, default=None, primary_key=True)
     judge_date = models.DateTimeField(blank=False, null=False, auto_now_add=True)
