@@ -7,6 +7,8 @@ class ScrapedItem(models.Model):
     link = models.CharField(unique=True, max_length=2047, blank=False, null=False)
     date = models.DateTimeField(blank=False, null=False)
     last_seen = models.DateTimeField(blank=False, null=False)
+    class Meta:
+        ordering = ['-last_seen']
 
 # TODO: Should these two be combined to save a filter step?
 class WantItem(models.Model):

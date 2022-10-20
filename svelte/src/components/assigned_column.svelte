@@ -5,7 +5,7 @@
     const dispatch = createEventDispatcher();
 </script>
 
-<div class='column'>
+<div class='column assigned_column'>
     <h1>{is_want ? 'Want' : 'Ignore'}</h1>
     <div class:want_background={is_want} class:ignore_background={!is_want}>
         {#each item_list.slice(-5) as item}
@@ -27,12 +27,8 @@
 </div>
 
 <style>
-    .column {
-        margin: 0.5em;
-        border-radius: 5px;
+    .assigned_column {
         flex-basis: 25%;
-        flex-direction: column;
-        display: flex;
     }
     .ignore_background {
         background-color: rgb(255, 225, 200);
@@ -41,14 +37,6 @@
     .want_background {
         background-color: rgb(207, 215, 248);
         height: 100%;
-    }
-    .item_div {
-        display: flex;
-        justify-content: space-between;
-        align-items: stretch;
-        /* width: 80%; */
-		background-color: #eee;
-		border-radius: 5px;
     }
     .item_description_div {
         padding: 0 2em;

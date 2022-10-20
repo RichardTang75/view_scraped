@@ -6,3 +6,5 @@ credentials.py
 /api/migrations
 *bundle*
 *.sql
+*.js
+*.map

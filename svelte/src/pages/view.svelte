@@ -1,24 +1,19 @@
 <script>
 	import { onMount } from 'svelte';
-    import Navigation from './navigation.svelte';
-    import SourceColumn from './source_column.svelte';
-    import AssignedColumn from './assigned_column.svelte';
+    import Navigation from '../components/navigation.svelte';
+    import SourceColumn from '../components/source_column.svelte';
 	let item_list = [];
-    let ignore_list = [];
-    let want_list = [];
 	let current_page = 1;
     let item_count = 0;
 	onMount(async () => {
 		item_list = await fetch_items(current_page);
 	});
 	async function switch_page(page) {
-        // TODO: scroll to top
-        // TODO: infinite scrolling?
 		current_page = page;
         item_list = await fetch_items(current_page);
 	}
     async function fetch_items(page) {
-        const item_response = await fetch('/api/items/?page=' + page);
+        const item_response = await fetch('/api/want/?page=' + page);
         const item_json = await item_response.json();
         item_count = item_json.count;
         console.log(item_json.results);
@@ -75,44 +70,11 @@
             }
         post('/api/want/', want_item);
     }
-    function delete_ignore(item) {
-        if (ignore_list.includes(item.detail)) {
-            ignore_list = ignore_list.filter(i => i !== item.detail);
-            // TODO: add to item_list. fetch it again?
-        }
-        else {
-            // Should not happen.
-        }
-        let delete_url = '/api/ignore/' + item.detail.id + '/';
-        delete_item(delete_url);
-    }
-    function delete_want(item) {
-        if (want_list.includes(item.detail)) {
-            want_list = want_list.filter(i => i !== item.detail);
-        }
-        else {
-            // Should not happen.
-        }
-        let delete_url = '/api/want/' + item.detail.id + '/';
-        delete_item(delete_url);
-    }
-    // $: {
-    //     let items_left = item_list.length;
-    //     if (items_left < 5 && current_page < item_count / 10) {
-    //         fetch_items(current_page + 1).then(
-    //             new_items => {
-    //                 item_list = [...item_list, ...new_items];
-    //             }
-    //         );
-    //     }
-    // }
 </script>
 
 <main>
     <div class="column_holder">
-        <AssignedColumn item_list={ignore_list} is_want={false} on:delete_ignore={delete_ignore}/>
         <SourceColumn {item_list} on:ignore={ignore} on:want={want} />
-        <AssignedColumn item_list={want_list} is_want={true} on:delete_want={delete_want}/>
     </div>
     <Navigation
         {current_page}
@@ -137,26 +99,5 @@
     .column_holder {
         display: flex;
         justify-content: space-between;
-    }
-
-    :global(h2) {
-        margin: 0;
-        padding: .5em;
-    }
-
-    :global(.column) {
-        margin: 0.5em;
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    :global(.item_div) {
-        display: flex;
-        justify-content: space-between;
-        align-items: stretch;
-        /* width: 80%; */
-		background-color: #eee;
-		border-radius: 5px;
     }
 </style>

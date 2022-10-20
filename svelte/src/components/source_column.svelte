@@ -31,7 +31,7 @@
     }
 </script>
 
-<div class="column">
+<div class="column source_column">
     <h1>View Scraped</h1>
     <div class="source_background">
         {#each item_list as item}
@@ -68,12 +68,8 @@
     .hidden {
         display: none;
     }
-    .column {
-        margin: 0.5em;
-        border-radius: 5px;
+    .source_column {
         flex-basis: 50%;
-        display: flex;
-        flex-direction: column;
     }
     .spacer {
         height: 50vh;
@@ -82,14 +78,6 @@
     .source_background {
         background-color: rgb(250, 249, 214);
         height: 100%;
-    }
-    .item_div {
-        display: flex;
-        justify-content: space-between;
-        align-items: stretch;
-        /* width: 80%; */
-		background-color: #eee;
-		border-radius: 5px;
     }
     .item_with_info_div {
         width: 100%;
