@@ -4,6 +4,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
+import del from 'rollup-plugin-delete';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -38,6 +39,7 @@ export default {
 		// file: '../view_scraped/static/frontend/bundle.js'
 	},
 	plugins: [
+		del({ targets: ['../view_scraped/static/frontend/*.js', '../view_scraped/static/frontend/*.map'], force: true }),
 		svelte({
 			compilerOptions: {
 				// enable run-time checks when not in production

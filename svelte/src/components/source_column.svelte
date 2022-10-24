@@ -11,13 +11,6 @@
     console.log(show_iframe)
 
     function set_iframe(item) {
-        // console.log(item.item_div.offsetLeft);
-        // console.log(item.item_div.offsetTop);
-        // console.log(item.item_div);
-        // let item_div_left = item.item_div.offsetLeft;
-        // let item_div_bottom = item.item_div.offsetTop + item.item_div.offsetHeight;
-        // iframe_div.style.left = item_div_left + 'px';
-        // iframe_div.style.top = item_div_bottom + 'px';
         if ((selected_item === item) && (show_iframe === true)) {
             show_iframe = false;
         }
@@ -37,7 +30,7 @@
         {#each item_list as item}
             <div class="item_div">
                 <button on:click="{() => dispatch('ignore', item)}" class="assign_button">&lt;</button>
-                <div bind:this={item.item_div} class=item_with_info_div>
+                <div class=item_with_info_div>
                     <div class="item_description_div">
                         <h2>{item.title}</h2>
                         <a href={item.link}>{item.link}</a>
@@ -60,7 +53,6 @@
         <button class:hidden={!show_iframe} class='info_button' on:click="{() => close_iframe()}">X</button>
         <iframe src={selected_item.link} class="iframe"></iframe>
     </div>
-    <div class='spacer' class:hidden={!show_iframe}></div>
 {/if}
 
 
@@ -81,10 +73,6 @@
     }
     .item_with_info_div {
         width: 100%;
-    }
-    .item_description_div {
-        padding: 0 2em;
-        word-break: break-word;
     }
     .assign_button {
         padding: 1em; 

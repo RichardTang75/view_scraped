@@ -38,10 +38,6 @@
         background-color: rgb(207, 215, 248);
         height: 100%;
     }
-    .item_description_div {
-        padding: 0 2em;
-        word-break: break-word;
-    }
     .assign_button {
         padding: 1em; 
     }

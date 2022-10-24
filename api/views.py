@@ -27,8 +27,13 @@ class IgnoreItemList(generics.ListCreateAPIView):
 
 class WantItemDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = WantItem.objects.all()
+    # queryset = WantItem.objects.all().prefetch_related('item_id')
     serializer_class = WantItemSerializer
 
 class IgnoreItemDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = IgnoreItem.objects.all()
     serializer_class = IgnoreItemSerializer
+
+class InteractWantItemList(generics.ListAPIView):
+    queryset = WantItem.objects.filter(completed=False).order_by('view_order')
+    serializer_class = WantItemSerializer

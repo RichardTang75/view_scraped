@@ -122,41 +122,9 @@
 </main>
 
 <style>
-    main {
-        text-align: center;
-        padding: 1em;
-        margin: 0 auto;
-    }
-
     @media (min-width: 640px) {
         main {
             max-width: none;
         }
-    }
-
-    .column_holder {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    :global(h2) {
-        margin: 0;
-        padding: .5em;
-    }
-
-    :global(.column) {
-        margin: 0.5em;
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    :global(.item_div) {
-        display: flex;
-        justify-content: space-between;
-        align-items: stretch;
-        /* width: 80%; */
-		background-color: #eee;
-		border-radius: 5px;
     }
 </style>

@@ -14,7 +14,12 @@ class ScrapedItem(models.Model):
 class WantItem(models.Model):
     item_id = models.OneToOneField(ScrapedItem, on_delete=models.CASCADE, default=None, primary_key=True)
     judge_date = models.DateTimeField(blank=False, null=False, auto_now_add=True)
+    view_order = models.IntegerField(blank=False, null=False, default=0)
+    completed = models.BooleanField(blank=False, null=False, default=False)
+    class Meta:
+        ordering = ['view_order']
 
 class IgnoreItem(models.Model):
     item_id = models.OneToOneField(ScrapedItem, on_delete=models.CASCADE, default=None, primary_key=True)
     judge_date = models.DateTimeField(blank=False, null=False, auto_now_add=True)
+    
