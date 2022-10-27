@@ -18,7 +18,8 @@
         item_count = item_json.count;
         console.log(item_json.results);
         // console.log(item_json.results.slice(-11));
-
+        selected_item = item_json.results[0];
+        show_iframe = true;
         return item_json.results;
     }
     // TODO: Combine posts/deletes?
@@ -43,18 +44,45 @@
         });
         console.log(response.status);
     }
-    function want(item) {
-        if (want_list.includes(item.detail)) {
-            // Should not happen.
-        }
-        else {
-            want_list = [...want_list, item.detail];
-            item_list = item_list.filter(i => i !== item.detail);
-        }
-        let want_item = {
-            "item_id": item.detail.id,
-            }
-        post('/api/want/', want_item);
+    async function update_item(url, item) {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(item)
+        });
+        console.log(JSON.stringify(item));
+        const json = await response.json();
+        console.log(json);
+    }
+    // update item to complete
+    function complete_want(item) {
+        item.completed = true;
+        let want_item_id = item.item_id.id
+        item.item_id = want_item_id
+        update_item('/api/want/' + want_item_id + '/', item);
+        item_list = item_list.filter(i => i !== item);
+        selected_item = null;
+        show_iframe = false;
+    }
+    // queue item by changing view order
+    function queue_want(item) {
+        item.view_order += 1;
+        let want_item_id = item.item_id.id
+        item.item_id = want_item_id
+        update_item('/api/want/' + want_item_id + '/', item);
+        item_list = item_list.filter(i => i !== item);
+        selected_item = null;
+        show_iframe = false;
+    }
+    // delete item
+    function delete_want(item) {
+        let want_item_id = item.item_id.id
+        delete_item('/api/want/' + want_item_id + '/');
+        item_list = item_list.filter(i => i !== item);
+        selected_item = null;
+        show_iframe = false;
     }
 
     let selected_item = null;
@@ -80,7 +108,8 @@
             <h1>View Scraped</h1>
             <div class="source_background">
                 {#each item_list as item}
-                    <div class="item_div" on:click={() => set_iframe(item)}>
+                <!-- on click pass the item_div -->
+                    <div class="item_div" class:active_select={selected_item === item} on:click={() => set_iframe(item)}>
                         <div class="item_description_div">
                             <h2>{item.item_id.title}</h2>
                             <a href={item.item_id.link}>{item.item_id.link}</a>
@@ -94,12 +123,12 @@
             {#if selected_item}
                 <div class:hidden={!show_iframe} class="info_iframe">
                     <div class="iframe_button_div">
-                        <button class='info_button' on:click="{() => close_iframe()}">Completed</button>
-                        <button class='info_button' on:click="{() => close_iframe()}">Queue</button>
-                        <button class='info_button' on:click="{() => close_iframe()}">Reject</button>
-                        <button class='info_button' on:click="{() => close_iframe()}">X</button>
+                        <button class='info_button complete_button' on:click="{() => complete_want(selected_item)}">Complete</button>
+                        <button class='info_button queue_button' on:click="{() => queue_want(selected_item)}">Queue</button>
+                        <button class='info_button reject_button' on:click="{() => delete_want(selected_item)}">Reject</button>
+                        <button class="info_button close_button" on:click="{() => close_iframe()}">X</button>
                     </div>
-                    <iframe src={selected_item.item_id.link} class="iframe"></iframe>
+                    <iframe src={'google.com'} class="iframe"></iframe>
                 </div>
             {/if}
         </div>
@@ -116,6 +145,9 @@
         main {
             max-width: none;
         }
+    }
+    .hidden {
+        display: none;
     }
     .source_column {
         flex-basis: 40%;
@@ -140,5 +172,28 @@
     .iframe {
         width: 100%;
         height: 100%;
+    }
+    .info_button {
+        margin: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        /* background-color: #eee; */
+        flex-basis: 10rem;
+    }
+    .complete_button {
+        background-color: rgb(217, 255, 217);
+    }
+    .queue_button {
+        background-color: rgb(255, 255, 217);
+    }
+    .reject_button {
+        background-color: rgb(255, 217, 217);
+    }
+    .close_button {
+        background-color: rgb(255, 119, 119);
+    }
+    .active_select{
+        border: 1px solid #000;
+        background-color: #eee;
     }
 </style>

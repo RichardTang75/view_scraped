@@ -36,6 +36,10 @@
 		background-color: #eee;
 		border-radius: 5px;
     }
+
+	:global(.item_div:hover) {
+		background-color: rgb(214, 224, 202);
+    }
 	:global(.item_description_div) {
         padding: 0 2em;
         word-break: break-word;

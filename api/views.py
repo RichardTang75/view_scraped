@@ -35,5 +35,5 @@ class IgnoreItemDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = IgnoreItemSerializer
 
 class InteractWantItemList(generics.ListAPIView):
-    queryset = WantItem.objects.filter(completed=False).order_by('view_order')
+    queryset = WantItem.objects.filter(completed=False).order_by('view_order', '-judge_date')
     serializer_class = WantItemSerializer
