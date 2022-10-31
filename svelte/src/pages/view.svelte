@@ -128,7 +128,7 @@
                         <button class='info_button reject_button' on:click="{() => delete_want(selected_item)}">Reject</button>
                         <button class="info_button close_button" on:click="{() => close_iframe()}">X</button>
                     </div>
-                    <iframe src={'google.com'} class="iframe"></iframe>
+                    <iframe src={selected_item.item_id.link} class="iframe"></iframe>
                 </div>
             {/if}
         </div>
